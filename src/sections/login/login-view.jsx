@@ -26,7 +26,7 @@ export default function LoginView() {
   const handleClick = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/user/login`, {
+      const response = await axios.post(`${API_BASE_URL}user/login`, {
         email,
         password,
       });

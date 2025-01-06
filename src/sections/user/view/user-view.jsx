@@ -25,6 +25,8 @@ import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export default function UserView() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
@@ -49,7 +51,7 @@ export default function UserView() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/user', {
+        const response = await axios.get(`${API_BASE_URL}user`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -159,13 +161,13 @@ export default function UserView() {
 
     try {
       if (isEditing) {
-        await axios.put(`http://localhost:3000/api/user/${editingUserId}`, userPayload, {
+        await axios.put(`${API_BASE_URL}user/${editingUserId}`, userPayload, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         });
       } else {
-        await axios.post('http://localhost:3000/api/user', userPayload, {
+        await axios.post(`${API_BASE_URL}user`, userPayload, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -174,7 +176,7 @@ export default function UserView() {
 
       setOpenDrawer(false);
 
-      const updatedUsersResponse = await axios.get('http://localhost:3000/api/user', {
+      const updatedUsersResponse = await axios.get(`${API_BASE_URL}user`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -188,13 +190,12 @@ export default function UserView() {
 
   const handleDeleteUser = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/user/${id}`, {
+      await axios.delete(`${API_BASE_URL}user/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-      alert(`Usuario eliminado exitosamente.`);
-      const updatedUsersResponse = await axios.get('http://localhost:3000/api/user', {
+      const updatedUsersResponse = await axios.get(`${API_BASE_URL}user`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

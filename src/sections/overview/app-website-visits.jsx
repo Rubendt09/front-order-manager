@@ -28,7 +28,6 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
     labels,
     xaxis: {
       type: 'datetime',
-      categories: labels,
       labels: {
         format: 'dd/MM/yyyy', 
       },

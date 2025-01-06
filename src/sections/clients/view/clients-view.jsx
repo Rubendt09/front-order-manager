@@ -45,10 +45,12 @@ export default function ClientsView() {
   const [emailError, setEmailError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/clients', {
+        const response = await axios.get(`${API_BASE_URL}clients`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -158,13 +160,13 @@ export default function ClientsView() {
 
     try {
       if (isEditing) {
-        await axios.put(`http://localhost:3000/api/clients/${editingClientId}`, clientPayload, {
+        await axios.put(`${API_BASE_URL}clients/${editingClientId}`, clientPayload, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         });
       } else {
-        await axios.post('http://localhost:3000/api/clients', clientPayload, {
+        await axios.post(`${API_BASE_URL}clients`, clientPayload, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -173,7 +175,7 @@ export default function ClientsView() {
 
       setOpenDrawer(false);
 
-      const updatedClientsResponse = await axios.get('http://localhost:3000/api/clients', {
+      const updatedClientsResponse = await axios.get(`${API_BASE_URL}clients`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -187,13 +189,13 @@ export default function ClientsView() {
 
   const handleDeleteClient = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/clients/${id}`, {
+      await axios.delete(`${API_BASE_URL}clients/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
       alert(`Cliente eliminado exitosamente.`);
-      const updatedClientsResponse = await axios.get('http://localhost:3000/api/clients', {
+      const updatedClientsResponse = await axios.get(`${API_BASE_URL}clients`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

@@ -41,7 +41,7 @@ export default function OrderView() {
   const [apiError, setApiError] = useState(null);
   const [openDrawer, setOpenDrawer] = useState(false);
 
-  const [cliente, setCliente] = useState(null); 
+  const [cliente, setCliente] = useState(null);
   const [estado, setEstado] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [total, setTotal] = useState('');
@@ -53,17 +53,19 @@ export default function OrderView() {
   const [descripcionError, setDescripcionError] = useState(false);
   const [totalError, setTotalError] = useState(false);
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     const fetchOrdersClientsStates = async () => {
       try {
         const [ordersResponse, clientsResponse, statesResponse] = await Promise.all([
-          axios.get('http://localhost:3000/api/orders', {
+          axios.get(`${API_BASE_URL}orders`, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
           }),
-          axios.get('http://localhost:3000/api/clients', {
+          axios.get(`${API_BASE_URL}clients`, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
           }),
-          axios.get('http://localhost:3000/api/states', {
+          axios.get(`${API_BASE_URL}states`, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
           }),
         ]);
@@ -186,18 +188,18 @@ export default function OrderView() {
 
     try {
       if (isEditing) {
-        await axios.put(`http://localhost:3000/api/orders/${editingOrderId}`, orderPayload, {
+        await axios.put(`${API_BASE_URL}orders/${editingOrderId}`, orderPayload, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
       } else {
-        await axios.post('http://localhost:3000/api/orders', orderPayload, {
+        await axios.post(`${API_BASE_URL}orders`, orderPayload, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
       }
 
       setOpenDrawer(false);
 
-      const updatedOrdersResponse = await axios.get('http://localhost:3000/api/orders', {
+      const updatedOrdersResponse = await axios.get(`${API_BASE_URL}orders`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       setOrders(updatedOrdersResponse.data.data);
@@ -209,15 +211,15 @@ export default function OrderView() {
   const handleDeleteOrder = async (id) => {
     try {
       const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar esta orden?');
-      if (!confirmDelete) return; 
-  
-      await axios.delete(`http://localhost:3000/api/orders/${id}`, {
+      if (!confirmDelete) return;
+
+      await axios.delete(`${API_BASE_URL}orders/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
-  
+
       alert('Orden eliminada exitosamente.');
-  
-      const updatedOrdersResponse = await axios.get('http://localhost:3000/api/orders', {
+
+      const updatedOrdersResponse = await axios.get(`${API_BASE_URL}orders`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       setOrders(updatedOrdersResponse.data.data);
@@ -226,7 +228,6 @@ export default function OrderView() {
       alert('Hubo un error al eliminar la orden. Por favor, intenta de nuevo.');
     }
   };
-  
 
   if (loading) {
     return <div>Cargando órdenes...</div>;

@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import AppWebsiteVisits from '../app-website-visits';
 import OrderStats from '../order-stats';
 
-// ----------------------------------------------------------------------
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function AppView() {
   const [chartData, setChartData] = useState(null);
@@ -18,7 +18,7 @@ export default function AppView() {
   useEffect(() => {
     const fetchOrderStats = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/order-stats', {
+        const response = await fetch(`${API_BASE_URL}order-stats`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -40,7 +40,7 @@ export default function AppView() {
 
     const fetchChartData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/chart', {
+        const response = await fetch(`${API_BASE_URL}chart`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
