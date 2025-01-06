@@ -13,7 +13,7 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
 
   const chartOptions = useChart({
     chart: {
-      type: 'line', // Mantener línea para series mezcladas
+      type: 'line', 
       zoom: { enabled: false },
     },
     colors,
@@ -30,7 +30,7 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
       type: 'datetime',
       categories: labels,
       labels: {
-        format: 'dd/MM/yyyy', // Mostrar día, mes y año en el eje X
+        format: 'dd/MM/yyyy', 
       },
     },
     tooltip: {
