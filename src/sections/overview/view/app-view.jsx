@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import AppWebsiteVisits from '../app-website-visits';
+import ClientsVsOrders from '../clients-vs-orders';
 import OrderStats from '../order-stats';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -47,8 +47,6 @@ export default function AppView() {
           },
         });
 
-        console.log(response);
-
         const data = await response.json();
         setChartData(data);
       } catch (err) {
@@ -76,26 +74,38 @@ export default function AppView() {
       <Typography variant="h4" sx={{ mb: 5 }}>
         Hola, Bienvenido a Order Manager 👋
       </Typography>
-
+  
       <Grid container spacing={3}>
         <Grid xs={12} md={6} lg={8}>
-          <AppWebsiteVisits
-            title="Clientes vs Ordenes"
-            subheader="Ideal para comparar el número de clientes y órdenes, a lo largo del tiempo"
-            chart={{
-              labels: chartData.labels,
-              series: chartData.series,
-            }}
-          />
+          {chartData && chartData.labels && chartData.series ? (
+            <ClientsVsOrders
+              title="Clientes vs Ordenes"
+              subheader="Ideal para comparar el número de clientes y órdenes, a lo largo del tiempo"
+              chart={{
+                labels: chartData.labels,
+                series: chartData.series,
+              }}
+            />
+          ) : (
+            <Typography variant="h6" color="text.secondary">
+              No hay datos disponibles para el gráfico.
+            </Typography>
+          )}
         </Grid>
-
+  
         <Grid xs={12} md={6} lg={4}>
-          <OrderStats
-            title="Estados de las órdenes"
-            chart={{
-              series: orderStats,
-            }}
-          />
+          {orderStats.length > 0 ? (
+            <OrderStats
+              title="Estados de las órdenes"
+              chart={{
+                series: orderStats,
+              }}
+            />
+          ) : (
+            <Typography variant="h6" color="text.secondary">
+              No hay datos disponibles para los estados de las órdenes.
+            </Typography>
+          )}
         </Grid>
       </Grid>
     </Container>
